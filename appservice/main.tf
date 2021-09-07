@@ -64,7 +64,15 @@ resource "azurerm_key_vault" "sampleapp_secrets_kv" {
   tenant_id                   = data.azurerm_client_config.current.tenant_id
   enabled_for_deployment = true
 
-  sku_name = "standard"    
+  sku_name = "standard"   
+  access_policy {
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = data.azurerm_client_config.current.object_id
+
+    secret_permissions = [
+      "Get", "Set","List","Delete","Purge"
+    ]
+  } 
 }
 
 resource "azurerm_storage_container" "sampleapp_container" {
