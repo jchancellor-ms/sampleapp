@@ -27,3 +27,34 @@ resource "azurerm_app_service" "app_service_api" {
   }
 }
 
+resource "random_string" "random_storage_name" {
+  length           = 10
+  special          = false
+  upper            = false
+}
+
+resource "azurerm_storage_account" "tfstate_storage_account" {
+  name                     = "stgsecrets${random_string.random_storage_part.id}"
+  resource_group_name      = var.rg_name
+  location                 = var.rg_location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"  
+}
+
+data "azurerm_client_config" "current" {}
+
+resource "random_string" "random_keyvault_namepart" {
+  length           = 10
+  special          = false
+  upper            = false
+}
+
+resource "azurerm_key_vault" "tfstate_infra_kv" {
+  name                        = "kv-secrets-${random_string.random_keyvault_namepart.id}"
+  location                    = var.rg_location
+  resource_group_name         = var.rg_name
+  tenant_id                   = data.azurerm_client_config.current.tenant_id
+  enabled_for_deployment = true
+
+  sku_name = "standard"    
+}
