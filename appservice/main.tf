@@ -68,13 +68,13 @@ resource "azurerm_key_vault" "sampleapp_secrets_kv" {
 }
 
 resource "azurerm_storage_container" "sampleapp_container" {
-  name                  = "sampleapp_content"
+  name                  = "sampleapp-content"
   storage_account_name  = azurerm_storage_account.sampleapp_storage_account.name
   container_access_type = "private"
 }
 
 resource "azurerm_key_vault_secret" "sampleapp_storage_primary_key" {
   name         = "sampleapp-storage-primary-key"
-  value        = azurerm_stroage_account.sampleapp_storage_account.primary_access_key
+  value        = azurerm_storage_account.sampleapp_storage_account.primary_access_key
   key_vault_id = azurerm_key_vault.sampleapp_secrets_kv.id
 }
