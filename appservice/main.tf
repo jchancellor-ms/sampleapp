@@ -27,14 +27,14 @@ resource "azurerm_app_service" "app_service_api" {
   }
 }
 
-resource "random_string" "random_storage_name" {
+resource "random_string" "random_storage_name_part" {
   length           = 10
   special          = false
   upper            = false
 }
 
 resource "azurerm_storage_account" "tfstate_storage_account" {
-  name                     = "stgsecrets${random_string.random_storage_part.id}"
+  name                     = "stgsecrets${random_string.random_storage_name_part.id}"
   resource_group_name      = var.rg_name
   location                 = var.rg_location
   account_tier             = "Standard"
