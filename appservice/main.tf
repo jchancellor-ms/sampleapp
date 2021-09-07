@@ -28,7 +28,7 @@ resource "azurerm_app_service" "app_service_api" {
 
   storage_account {
     name = "sampleapp_storage_account_content"
-    type = "AzureBlob"
+    type = "AzureFiles"
     account_name = azurerm_storage_account.sampleapp_storage_account.name
     share_name = azurerm_storage_container.sampleapp_container.name
     access_key = azurerm_key_vault_secret.sampleapp_storage_primary_key.value
